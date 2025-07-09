@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pure CSS Racing Game</title>
+<meta name="description" content="Race through a thrilling CSS-only car game — built with just HTML and CSS, no JavaScript needed! Fast, fun, and fully front-end." />
+<style>
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+  }
+  body {
+    background: #111;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
+    text-align: center;
+    user-select: none;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  h1 {
+    margin-bottom: 10px;
+  }
+  #gameArea {
+    position: relative;
+    width: 300px;
+    height: 500px;
+    margin: 20px auto;
+    border: 4px solid #fff;
+    background:
+      repeating-linear-gradient(
+        to bottom,
+        #222 0 20px,
+        #333 20px 40px
+      );
+    overflow: hidden;
+    animation: roadMove 1s linear infinite;
+    border-radius: 12px;
+  }
+
+  @keyframes roadMove {
+    0% { background-position-y: 0; }
+    100% { background-position-y: 40px; }
+  }
+
+  /* Car styling */
+  #car {
+    position: absolute;
+    bottom: 20px;
+    width: 50px;
+    height: 100px;
+    background: linear-gradient(45deg, red, darkred);
+    border-radius: 12px;
+    left: 125px;
+    transition: left 0.3s ease;
+    box-shadow: 0 0 8px crimson;
+  }
+
+  /* Enemies */
+  .enemy {
+    position: absolute;
+    width: 50px;
+    height: 100px;
+    background: linear-gradient(45deg, yellow, goldenrod);
+    border-radius: 12px;
+    top: -120px;
+    animation: fall 3s linear infinite;
+    box-shadow: 0 0 8px gold;
+  }
+
+  @keyframes fall {
+    0% { top: -120px; }
+    100% { top: 520px; }
+  }
+
+  /* Position enemies in lanes */
+  .enemy.lane1 { left: 25px; animation-delay: 0s; }
+  .enemy.lane2 { left: 125px; animation-delay: 1.5s; }
+  .enemy.lane3 { left: 225px; animation-delay: 3s; }
+
+  /* Controls with radio buttons */
+  input[type="radio"] {
+    display: none;
+  }
+  #left:checked ~ #gameArea #car {
+    left: 25px;
+  }
+  #center:checked ~ #gameArea #car {
+    left: 125px;
+  }
+  #right:checked ~ #gameArea #car {
+    left: 225px;
+  }
+
+  /* Control buttons */
+  #controls {
+    margin-top: 15px;
+  }
+  #controls label {
+    cursor: pointer;
+    display: inline-block;
+    background: #444;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border-radius: 6px;
+    user-select: none;
+    box-shadow: 0 0 6px #666;
+    transition: background 0.3s;
+  }
+  #controls label:hover {
+    background: #666;
+  }
+
+  /* Responsive */
+  @media (max-width: 400px) {
+    #gameArea {
+      width: 90vw;
+      height: 60vh;
+    }
+    #car, .enemy {
+      width: 15vw;
+      height: 30vw;
+    }
+    .enemy.lane1 { left: 5vw; }
+    .enemy.lane2 { left: 37vw; }
+    .enemy.lane3 { left: 69vw; }
+    #left:checked ~ #gameArea #car {
+      left: 5vw;
+    }
+    #center:checked ~ #gameArea #car {
+      left: 37vw;
+    }
+    #right:checked ~ #gameArea #car {
+      left: 69vw;
+    }
+    #controls label {
+      padding: 8px 15px;
+      margin: 0 5px;
+      font-size: 14px;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <h1>Pure CSS Racing Game</h1>
+
+  <!-- Radio controls -->
+  <input type="radio" name="move" id="left" />
+  <input type="radio" name="move" id="center" checked />
+  <input type="radio" name="move" id="right" />
+
+  <!-- Game area -->
+  <div id="gameArea">
+    <div id="car"></div>
+
+    <div class="enemy lane1"></div>
+    <div class="enemy lane2"></div>
+    <div class="enemy lane3"></div>
+  </div>
+
+  <!-- Controls -->
+  <div id="controls">
+    <label for="left">⬅ Left</label>
+    <label for="center">⬆ Center</label>
+    <label for="right">➡ Right</label>
+  </div>
+
+</body>
+</html>
